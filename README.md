@@ -1,9 +1,6 @@
 
 # Desarrollo backend Red Social
 
-![NB](https://github.com/JCLLacruz/NeverBoringNetwork/assets/161235632/31c0f7fb-c616-4498-bc8c-cb01b3f8f5ea)
-
-
 Este proyecto consta del back-end de una red Social.
 
 En esta tendremos que crearnos nuestro usuario y una vez logueados podremos acceder a las etiquetas que nos interesen y acceder a las publicaciones con esa etiqueta.
@@ -90,6 +87,6 @@ https://neverboringnetwork.onrender.com/api-docs/
 ## Autores
 
 
-- [GitHub Juanjo](https://www.github.com/JuanjoSalas) || [LinkedIn Juanjo](https://www.linkedin.com/in/juanjo-salas-jiménez)
+- [GitHub Juanjo](https://www.github.com/brunomalfi) || [LinkedIn Juanjo](https://www.linkedin.com/in/bruno-malfi-fabeiro-a92b25b2/)
 
 - [GitHub Juan Carlos](https://github.com/JCLLacruz) || [LinkedIn Juan Carlos](https://www.linkedin.com/in/juan-carlos-lacruz-lacruz/)
