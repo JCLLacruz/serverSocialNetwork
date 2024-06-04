@@ -8,8 +8,11 @@ const transporter = require('../config/nodemailer.js');
 const UserController = {
 	async register(req, res) {
 		try {
-			console.log(req.body);
-			if (req.file) req.body.profileImg = req.file.filename;
+			if (!req.file) {
+				req.body.profileImg = 'nonProfileImage';
+			} else {
+				req.body.profileImg = req.file.filename;
+			}
 			if (
 				req.body.username == '' ||
 				req.body.email == '' ||
@@ -27,14 +30,14 @@ const UserController = {
 				role: 'user',
 				emailConfirmed: false,
 				online: false,
-				image_path: req.file.filename,
+				image_path: req.file != undefined ? req.file.filename : 'nonProfileImage',
 			});
 			const emailToken = jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' });
 			const url = API_URL + '/users/confirm/' + emailToken;
 			await transporter.sendMail({
 				to: req.body.email,
 				subject: 'Please confirm your email.',
-				html: `<h3> Welcome to NeverBoringNetwork, only one step more to enjoy!</h3>
+				html: `<h3> Welcome to the Pokeshop, only one step more to enjoy!</h3>
 				<a href=${url}>Click to confirm your email</a>`,
 			});
 			res.status(201).send({ msg: `The user's email must be confirmed.`, user });

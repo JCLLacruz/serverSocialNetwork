@@ -7,10 +7,12 @@ const path = require('path');
 const swaggerUI = require('swagger-ui-express');
 const docs = require('./docs/index');
 require('./crons/cleanupUsers.js');
+const cors = require('cors');
 
 dbConnection();
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
