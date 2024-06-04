@@ -2,7 +2,7 @@ const User = require('../models/User.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, API_URL } = process.env;
 const transporter = require('../config/nodemailer.js');
 
 const UserController = {
@@ -30,7 +30,7 @@ const UserController = {
 				image_path: req.file.filename,
 			});
 			const emailToken = jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' });
-			const url = 'http://localhost:3001/users/confirm/' + emailToken;
+			const url = API_URL + '/users/confirm/' + emailToken;
 			await transporter.sendMail({
 				to: req.body.email,
 				subject: 'Please confirm your email.',
@@ -180,7 +180,7 @@ const UserController = {
 			const recoverToken = jwt.sign({ email: req.params.email }, JWT_SECRET, {
 				expiresIn: '48h',
 			});
-			const url = 'http://localhost:3001/users/resetPassword/' + recoverToken;
+			const url = API_URL + '/users/resetPassword/' + recoverToken;
 			await transporter.sendMail({
 				to: req.params.email,
 				subject: 'Recover password',
