@@ -27,16 +27,18 @@ const UserSchema = new mongoose.Schema(
 		],
 		FollowerIds: [{ FollowerId: { type: ObjectId, ref: 'User' } }],
 		FollowIds: [{ FollowId: { type: ObjectId, ref: 'User' } }],
-		CommentIds: [{
-		type: ObjectId,
-		ref: 'Comment'
-		}],
+		CommentIds: [
+			{
+				type: ObjectId,
+				ref: 'Comment',
+			},
+		],
 		tokens: [],
 	},
 	{ timestamps: true }
 );
 
-UserSchema.index({username: 'text'});
+UserSchema.index({ username: 'text' });
 
 UserSchema.methods.toJSON = function () {
 	const user = this._doc;
