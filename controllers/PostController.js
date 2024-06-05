@@ -9,7 +9,8 @@ const PostController = {
 			} else {
 				req.body.profileImg = req.file.filename;
 			}
-			const post = await Post.create({ ...req.body, image_path: req.body.filename });
+			console.log(req.body);
+			const post = await Post.create({ ...req.body, image_path: req.body.profileImg });
 			await User.findByIdAndUpdate(req.user._id, { $push: { PostIds: {PostId: post._id} } });
 			res.status(201).send({msg: 'Post is created',post});
 		} catch (error) {
