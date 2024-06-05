@@ -4,8 +4,12 @@ const User = require('../models/User');
 const PostController = {
 	async create(req, res) {
 		try {
-			if (req.file) req.body.profileImg = req.file.filename;
-			const post = await Post.create({ ...req.body, image_path: req.file.filename });
+			if (!req.file) {
+				req.body.profileImg = 'nonPostImage';
+			} else {
+				req.body.profileImg = req.file.filename;
+			}
+			const post = await Post.create({ ...req.body, image_path: req.body.filename });
 			await User.findByIdAndUpdate(req.user._id, { $push: { PostIds: {PostId: post._id} } });
 			res.status(201).send({msg: 'Post is created',post});
 		} catch (error) {
