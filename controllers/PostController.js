@@ -50,12 +50,12 @@ const PostController = {
 	},
 	async getPostsByTitle(req, res) {
 		try {
-			const posts = await Post.find({
-				$text: {
-					$search: req.params.title,
-				},
-			});
-			res.send({msg: 'Post by title found',posts});
+			if (req.params.title.length > 20){
+				return res.status(400).send('Search to long.')
+			}
+			const title = new RegExp(req.params.title, 'i');
+			const posts = await Post.find({title});
+			res.send({msg: 'Posts by title found',posts});
 		} catch (error) {
 			console.error(error);
 		}
