@@ -205,6 +205,33 @@ const UserController = {
 			console.error(error);
 		}
 	},
+	async updateUser(req, res, next) {
+        try {
+            const oldUser = await User.findById(req.user._id);
+            //let file = req.file != undefined ? req.file : { path: false };
+            //file = file.path ? file : oldUser.avatarPath;
+            const newUser = await User.findByIdAndUpdate(
+                req.user._id,
+                {
+                 username:req.body.username,
+				 firstname:req.body.firstname,
+				 lastname:req.body.lastname,
+				 birthday:req.body.birthday
+                },
+                { new: true },
+            );
+            res.status(200).send({
+                msg: "User successfully updated",
+                oldUser,
+                newUser,
+            });
+        } catch (error) {
+            console.error(error);
+            res.send({ msg: "user with Id: " + req.user.id + " not found", 
+					userNotFound: req.user
+			 });
+        }
+    },
 };
 
 module.exports = UserController;

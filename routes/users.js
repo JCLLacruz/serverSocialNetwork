@@ -17,5 +17,6 @@ router.put('/follow/:_id', authentication, UserController.follow);
 router.put('/unfollow/:_id', authentication, UserController.unfollow);
 router.put('/getonline/:_id', authentication, UserController.getOnline);
 router.delete('/logout', authentication, UserController.logout);
+router.put('/updateuser/', authentication, UserController.updateUser);
 
 module.exports = router;
