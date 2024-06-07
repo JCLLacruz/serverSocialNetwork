@@ -95,11 +95,10 @@ const PostController = {
             res.status(500).send({ msg: "There was a problem trying to remove the like"})
         }
     }, 
-	async getPostsByIds(req, res){
+	async getUserPosts(req, res){
 		try{
 			const ids =req.user.PostIds.map((PostIdObject)=>{return PostIdObject.PostId})
 			console.log('ids : ', ids)
-			//const ids = req.body.PostIds
 			const posts = await Post.find({ _id: { $in: ids } }).populate('LikeIds.UserId')
 			res.send({ msg: "Posts", posts });
 		}
