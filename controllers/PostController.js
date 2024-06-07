@@ -98,7 +98,7 @@ const PostController = {
 	async getUserPosts(req, res){
 		try{
 			const ids =req.user.PostIds.map((PostIdObject)=>{return PostIdObject.PostId})
-			console.log('ids : ', ids)
+			//console.log('ids : ', ids)
 			const posts = await Post.find({ _id: { $in: ids } }).populate('LikeIds.UserId')
 			res.send({ msg: "Posts", posts });
 		}
