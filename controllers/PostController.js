@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const User = require('../models/User');
 
@@ -93,7 +94,18 @@ const PostController = {
             console.error(error)
             res.status(500).send({ msg: "There was a problem trying to remove the like"})
         }
-    }  
+    }, 
+	async getPostsByIds(req, res){
+		try{
+			const ids = req.body.PostIds
+			const posts = await Post.find({ _id: { $in: ids } }).populate('LikeIds.UserId')
+			res.send({ msg: "Posts", posts });
+		}
+		catch(error){
+			console.error(error)
+            res.status(500).send({ msg: "There was a problem searching posts by Ids"})
+		}
+	}
 };
 
 module.exports = PostController;
