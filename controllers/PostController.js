@@ -1,16 +1,22 @@
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const User = require('../models/User');
+const { uploadImageToImgur } = require('../config/imgurUploader.js');
+const path = require('path');
+
 
 const PostController = {
 	async create(req, res) {
-		try {
-			if (!req.file) {
-				req.body.profileImg = 'nonPostImage';
-			} else {
-				req.body.profileImg = req.file.filename;
-			}
-			console.log(req.body);
+		if (!req.file) {
+			req.body.profileImg = 'nonPostImage';
+		} else {
+			//req.body.profileImg = req.file.filename;
+			const staticDir = path.join(req.file.destination);
+			const imagePath = path.join(staticDir, req.file.filename);
+			const mainDirPath = path.join(__dirname, '..');
+			req.body.profileImg = await uploadImageToImgur(mainDirPath +"/"+imagePath)
+		}
+		try {	
 			const post = await Post.create({ ...req.body, image_path: req.body.profileImg });
 			await User.findByIdAndUpdate(req.user._id, { $push: { PostIds: {PostId: post._id} } });
 			res.status(201).send({msg: 'Post is created',post});
