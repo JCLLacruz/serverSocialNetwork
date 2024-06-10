@@ -15,18 +15,10 @@ const UserSchema = new mongoose.Schema(
 		role: String,
 		online: Boolean,
 		image_path: String,
-		TagIds: [
-			{
-				TagId: { type: ObjectId, ref: 'Tag' },
-			},
-		],
-		PostIds: [
-			{
-				PostId: { type: ObjectId, ref: 'Post' },
-			},
-		],
-		FollowerIds: [{ FollowerId: { type: ObjectId, ref: 'User' } }],
-		FollowIds: [{ FollowId: { type: ObjectId, ref: 'User' } }],
+		TagIds: [{ type: ObjectId, ref: 'Tag' }],
+		PostIds: [{ type: ObjectId, ref: 'Post' }],
+		FollowerIds: [{ type: ObjectId, ref: 'User' }],
+		FollowIds: [{ type: ObjectId, ref: 'User' }],
 		CommentIds: [
 			{
 				type: ObjectId,

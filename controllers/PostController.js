@@ -69,7 +69,8 @@ const PostController = {
 	},
 	async getById(req, res) {
 		try {
-			const post = await Post.findById(req.params._id).populate('LikeIds.UserId');
+			const post = await Post.findById(req.params._id)
+			.populate('LikeIds').populate('CommentIds')
 			res.send({msg: 'Post by id found',post});
 		} catch (error) {
 			console.error(error);
