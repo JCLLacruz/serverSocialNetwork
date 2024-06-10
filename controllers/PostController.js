@@ -19,7 +19,7 @@ const PostController = {
 		try {	
 			const post = await Post.create({ ...req.body, image_path: req.body.profileImg });
 			await User.findByIdAndUpdate(req.user._id, { $push: { PostIds: {PostId: post._id} } });
-			res.status(201).send({msg: 'Post is created',post, dir: __dirname });
+			res.status(201).send({msg: 'Post is created',post, dir: req.body.profileImg });
 		} catch (error) {
 			console.error(error);
 			res.status(500).send({ msg: 'There was a problem creating the post' });
