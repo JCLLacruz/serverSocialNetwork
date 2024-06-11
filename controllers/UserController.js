@@ -168,11 +168,11 @@ const UserController = {
 	},
 	async userInfo(req, res) {
 		const user = await User.findById(req.user._id)
-		.populate({path: 'PostIds',populate: {path: 'PostIds',}})
-		.populate({path: 'CommentIds',populate: {path: 'CommentIds',}})
-		.populate({path: 'TagIds',populate: {path: 'TagIds'}})
-		.populate({path: 'FollowerIds', populate: {path: 'UserIds'}})
-		.populate({path: 'FollowIds',populate: {path: 'UserIds'}});
+		.populate('PostIds')
+		.populate('CommentIds')
+		.populate('TagIds')
+		.populate('FollowerIds')
+		.populate('FollowIds');
 		res.send({ msg: 'User info:', user });
 	},
 	async recoverPassword(req, res) {
