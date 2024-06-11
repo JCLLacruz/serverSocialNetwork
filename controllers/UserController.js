@@ -61,7 +61,12 @@ const UserController = {
 		try {
 			const user = await User.findOne({
 				email: req.body.email,
-			});
+			})
+			.populate('PostIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('FollowerIds')
+			.populate('FollowIds');
 			if (!user) {
 				return res.status(400).send({ msg: 'Email or password are wrong.' });
 			}
@@ -81,7 +86,12 @@ const UserController = {
 	},
 	async allOnlineUsers(req, res) {
 		try {
-			const users = await User.find({ online: true });
+			const users = await User.find({ online: true })
+			.populate('PostIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('FollowerIds')
+			.populate('FollowIds');;
 			res.send({ msg: 'Online users', users });
 		} catch (error) {
 			console.error(error);
@@ -90,7 +100,12 @@ const UserController = {
 	},
 	async findUserById(req, res) {
 		try {
-			const user = await User.findOne({ _id: req.params._id });
+			const user = await User.findOne({ _id: req.params._id })
+			.populate('PostIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('FollowerIds')
+			.populate('FollowIds');;
 			res.send({ msg: `User with id: ${req.params._id} was found.`, user });
 		} catch (error) {
 			console.error(error);
@@ -101,7 +116,12 @@ const UserController = {
 		try {
 			const user = await User.findOne({
 				$text: { $search: req.params.username },
-			});
+			})
+			.populate('PostIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('FollowerIds')
+			.populate('FollowIds');;
 			res.send({ msg: `User with username: ${user.username} was found.`, user });
 		} catch (error) {
 			console.error(error);
@@ -112,7 +132,7 @@ const UserController = {
 		try {
 			const user = await User.findByIdAndUpdate(
 				{ _id: req.user._id },
-				{ $pull: { tokens: { token: req.headers.authorization } }, $set: { online: false } },
+				{ $pull: { tokens: req.headers.authorization }, $set: { online: false } },
 				{ new: true }
 			);
 			res.send({ msg: 'User logged out', user });
