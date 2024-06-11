@@ -168,8 +168,8 @@ const UserController = {
 	},
 	async userInfo(req, res) {
 		const user = await User.findById(req.user._id)
-		.populate('PostIds')
 		.populate({path: 'PostIds',populate: {path: 'PostIds',}})
+		.populate({path: 'CommentIds',populate: {path: 'CommentIds',}})
 		.populate({path: 'TagIds',populate: {path: 'TagIds'}})
 		.populate({path: 'FollowerIds', populate: {path: 'UserIds'}})
 		.populate({path: 'FollowIds',populate: {path: 'UserIds'}});
