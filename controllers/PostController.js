@@ -12,6 +12,10 @@ const PostController = {
 				req.body.image_path = 'nonPostImage';
 			} else {
 				req.body.image_path = req.file.filename;
+				const staticDir = path.join(req.file.destination);
+				const imagePath = path.join(staticDir, req.file.filename);
+				const mainDirPath = path.join(__dirname, '..');
+				req.body.image_path = await uploadImageToImgur(mainDirPath +"/"+imagePath)
 			}
 			console.log(req.body);
 			const post = await Post.create({ ...req.body, image_path: req.body.image_path, UserId: req.user._id });
