@@ -4,7 +4,7 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 const TagSchema = new mongoose.Schema(
 	{
 		tag: { type: String, required: [true, 'Name for tag is necessary'], unique: [true, 'The tag already exists'] },
-		UserIds: [{ type: ObjectId, ref: 'User' }, ,],
+		UserIds: [{ type: ObjectId, ref: 'User' }],
 		PostIds: [{ type: ObjectId, ref: 'Post' }],
 	},
 	{ timestamps: true }
