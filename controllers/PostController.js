@@ -44,7 +44,10 @@ const PostController = {
 		try {
 			const { page = 1, limit = 10 } = req.query;
 			const posts = await Post.find()
-			.populate('LikeIds.UserId')
+			.populate('LikeIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('UserId')
 			.limit(limit)
 			.skip((page - 1) * limit);
 			res.send({msg: 'All posts', posts});
@@ -58,7 +61,11 @@ const PostController = {
 				return res.status(400).send('Search to long.')
 			}
 			const title = new RegExp(req.params.title, 'i');
-			const posts = await Post.find({title});
+			const posts = await Post.find({title})
+			.populate('LikeIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('UserId');
 			res.send({msg: 'Posts by title found',posts});
 		} catch (error) {
 			console.error(error);
@@ -67,6 +74,10 @@ const PostController = {
 	async getById(req, res) {
 		try {
 			const post = await Post.findById(req.params._id)
+			.populate('LikeIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('UserId')
 			.populate('LikeIds').populate('CommentIds').populate('UserId')
 			res.send({msg: 'Post by id found',post});
 		} catch (error) {
@@ -102,7 +113,6 @@ const PostController = {
 	async getUserPosts(req, res){
 		try{
 			const ids =req.user.PostIds.map((PostIdObject)=>{return PostIdObject.PostId})
-			//console.log('ids : ', ids)
 			const posts = await Post.find({ _id: { $in: ids } }).populate('LikeIds.UserId')
 			res.send({ msg: "Posts", posts });
 		}

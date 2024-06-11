@@ -38,7 +38,9 @@ const CommentController = {
 		try {
 			const { page = 1, limit = 10 } = req.query;
 			const comments = await Comment.find()
-				.populate('LikeIds.UserId')
+				.populate('LikeIds')
+				.populate('UserId')
+				.populate('PostId')
 				.limit(limit)
 				.skip((page - 1) * limit);
 			res.send(comments);

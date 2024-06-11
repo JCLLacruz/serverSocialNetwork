@@ -23,7 +23,7 @@ const PostSchema = new mongoose.Schema(
 				ref: 'Tag',
 			},
 		],
-		LikeIds: [{ type: ObjectId, ref: 'User' }, ,],
+		LikeIds: [{ type: ObjectId, ref: 'User' }],
 		CommentIds: [
 			{
 				type: ObjectId,
