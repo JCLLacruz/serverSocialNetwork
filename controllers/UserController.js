@@ -253,6 +253,17 @@ const UserController = {
 			 });
         }
     },
+	async getAllUsers (req, res){
+		try{
+			const { page = 1, limit = 9 } = req.query;
+			const users= await User.find()
+			.limit(limit)
+			.skip((page - 1) * limit);
+			res.status(200).send({msg: "users found", users});
+		}catch(error){
+			console.error(error)
+		}
+	}
 };
 
 module.exports = UserController;
