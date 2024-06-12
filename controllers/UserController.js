@@ -114,15 +114,14 @@ const UserController = {
 	},
 	async findUserByName(req, res) {
 		try {
-			const user = await User.findOne({
-				$text: { $search: req.params.username },
-			})
+			const username = new RegExp(req.params.username, 'i');
+			const user = await User.find({username})
 			.populate('PostIds')
 			.populate('CommentIds')
 			.populate('TagIds')
 			.populate('FollowerIds')
 			.populate('FollowIds');;
-			res.send({ msg: `User with username: ${user.username} was found.`, user });
+			res.send({ msg: `Users with username like : ${req.params.username} were found.`, user });
 		} catch (error) {
 			console.error(error);
 			res.status(500).send({ msg: `The user with name: ${req.params.username} does not exist in the database.`, error });
