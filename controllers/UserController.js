@@ -185,7 +185,7 @@ const UserController = {
 				{ $pull: { FollowIds: { FollowId: req.params._id } } },
 				{ new: true }
 			).populate('FollowIds');
-			const follower = await User.findByIdAndUpdate({ _id: req.params._id }, { $pull: { FollowerIds: { FollowId: user._id } } });
+			const follower = await User.findByIdAndUpdate({ _id: req.params._id }, { $pull: { FollowerIds: user._id } });
 			res.send({ msg: `You unfollow now ${follower.username}`, user });
 		} catch (error) {
 			console.error(error);
