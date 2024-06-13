@@ -182,7 +182,7 @@ const UserController = {
 		try {
 			const user = await User.findByIdAndUpdate(
 				{ _id: req.user._id },
-				{ $pull: { FollowIds: { FollowId: req.params._id } } },
+				{ $pull: { FollowIds: req.params._id } },
 				{ new: true }
 			).populate('FollowIds');
 			const follower = await User.findByIdAndUpdate({ _id: req.params._id }, { $pull: { FollowerIds: user._id } });
@@ -198,7 +198,7 @@ const UserController = {
 		.populate('CommentIds')
 		.populate('TagIds')
 		.populate('FollowerIds')
-		.populate('FollowIds');
+		.populate({path: 'FollowIds',populate: {path: 'PostIds'}});
 		res.send({ msg: 'User info:', user });
 	},
 	async recoverPassword(req, res) {
