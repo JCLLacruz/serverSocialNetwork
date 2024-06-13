@@ -241,11 +241,11 @@ const UserController = {
 			const imagePath = path.join(staticDir, req.file.filename);
 			const mainDirPath = path.join(__dirname, '..');
 			req.body.profileImg = await uploadImageToImgur(mainDirPath +"/"+imagePath) || req.file.filename
-			
+
 		}
         try {
             const oldUser = await User.findById(req.user._id);
-            const image_path = (req.body.profileImg != 'nonProfileImage'? req.body.profileImg:oldUser.image_path)
+            const image_path = req.body.profileImg != 'nonProfileImage'? req.body.profileImg:oldUser.image_path
             const newUser = await User.findByIdAndUpdate(
                 req.user._id,
                 {
