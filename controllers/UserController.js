@@ -168,10 +168,10 @@ const UserController = {
 		try {
 			const user = await User.findByIdAndUpdate(
 				{ _id: req.user._id },
-				{ $push: { FollowIds: { FollowId: req.params._id } } },
+				{ $push: { FollowIds: req.params._id } },
 				{ new: true }
 			).populate('FollowIds');
-			const follower = await User.findByIdAndUpdate({ _id: req.params._id }, { $push: { FollowerIds: { FollowId: user._id } } });
+			const follower = await User.findByIdAndUpdate({ _id: req.params._id }, { $push: { FollowerIds: user._id } });
 			res.send({ msg: `You follow now ${follower.username}`, user });
 		} catch (error) {
 			console.error(error);
