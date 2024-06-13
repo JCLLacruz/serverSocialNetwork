@@ -5,7 +5,7 @@ const User = require('../models/User');
 const CommentController = {
 	async create(req, res) {
 		try {
-			const comment = await Comment.create({...req.body,PostId:req.user._id});
+			const comment = await Comment.create({...req.body,UserId:req.user._id});
 			await Post.findByIdAndUpdate(req.body.PostId, { $push: { CommentIds: comment._id } });
 			await User.findByIdAndUpdate(req.user._id, { $push: { CommentIds: comment._id } });
 			res.status(201).send(comment);
