@@ -17,7 +17,9 @@ const UserController = {
 				const staticDir = path.join(req.file.destination);
 				const imagePath = path.join(staticDir, req.file.filename);
 				const mainDirPath = path.join(__dirname, '..');
+				console.log('-----------eeeeee------------------------',mainDirPath +"/"+imagePath)
 				req.body.profileImg = await uploadImageToImgur(mainDirPath +"/"+imagePath) || req.file.filename
+				
 			}
 			if (
 				req.body.username == '' ||
@@ -36,7 +38,7 @@ const UserController = {
 				role: 'user',
 				emailConfirmed: false,
 				online: false,
-				image_path: req.file != undefined ? req.file.filename : 'nonProfileImage',
+				image_path: req.body.profileImg,
 			});
 			const emailToken = jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' });
 			const url = API_URL + '/users/confirm/' + emailToken;
