@@ -17,7 +17,6 @@ const UserController = {
 				const staticDir = path.join(req.file.destination);
 				const imagePath = path.join(staticDir, req.file.filename);
 				const mainDirPath = path.join(__dirname, '..');
-				console.log('-----------eeeeee------------------------',mainDirPath +"/"+imagePath)
 				req.body.profileImg = await uploadImageToImgur(mainDirPath +"/"+imagePath) || req.file.filename
 				
 			}
@@ -234,17 +233,27 @@ const UserController = {
 		}
 	},
 	async updateUser(req, res, next) {
+		if (!req.file) {
+			req.body.profileImg = 'nonProfileImage';
+		} else {
+			req.body.profileImg = req.file.filename;
+			const staticDir = path.join(req.file.destination);
+			const imagePath = path.join(staticDir, req.file.filename);
+			const mainDirPath = path.join(__dirname, '..');
+			req.body.profileImg = await uploadImageToImgur(mainDirPath +"/"+imagePath) || req.file.filename
+			
+		}
         try {
             const oldUser = await User.findById(req.user._id);
-            //let file = req.file != undefined ? req.file : { path: false };
-            //file = file.path ? file : oldUser.avatarPath;
+            const image_path = (req.body.profileImg != 'nonProfileImage'? req.body.profileImg:oldUser.image_path)
             const newUser = await User.findByIdAndUpdate(
                 req.user._id,
                 {
                  username:req.body.username,
 				 firstname:req.body.firstname,
 				 lastname:req.body.lastname,
-				 birthday:req.body.birthday
+				 birthday:req.body.birthday,
+				 image_path
                 },
                 { new: true },
             );
