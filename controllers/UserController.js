@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET, API_URL } = process.env;
 const transporter = require('../config/nodemailer.js');
+const { uploadImageToImgur } = require('../config/imgurUploader.js');
+const path = require('path');
 
 const UserController = {
 	async register(req, res) {
@@ -12,6 +14,10 @@ const UserController = {
 				req.body.profileImg = 'nonProfileImage';
 			} else {
 				req.body.profileImg = req.file.filename;
+				const staticDir = path.join(req.file.destination);
+				const imagePath = path.join(staticDir, req.file.filename);
+				const mainDirPath = path.join(__dirname, '..');
+				req.body.profileImg = await uploadImageToImgur(mainDirPath +"/"+imagePath) || req.file.filename
 			}
 			if (
 				req.body.username == '' ||
