@@ -82,7 +82,8 @@ const PostController = {
 			.populate('CommentIds')
 			.populate('TagIds')
 			.populate('UserId')
-			.populate('LikeIds').populate('CommentIds').populate('UserId')
+			.populate('LikeIds')
+			.populate('CommentIds')
 			res.send({msg: 'Post by id found',post});
 		} catch (error) {
 			console.error(error);
