@@ -256,7 +256,11 @@ const UserController = {
 				 image_path
                 },
                 { new: true },
-            );
+            ).populate('PostIds')
+			.populate('CommentIds')
+			.populate('TagIds')
+			.populate('FollowerIds')
+			.populate({path: 'FollowIds',populate: {path: 'PostIds'}});
             res.status(200).send({
                 msg: "User successfully updated",
                 oldUser,
