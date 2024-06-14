@@ -92,7 +92,7 @@ const PostController = {
         try {
             const post = await Post.findByIdAndUpdate(
                 req.params._id,
-                { $push: { LikeIds: { UserId: req.user._id }}},
+                { $push: { LikeIds: req.user._id }},
                 { new: true }
             );
             res.send({msg: 'Post liked',post});
